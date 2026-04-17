@@ -1,3 +1,5 @@
+import os
+os.environ["TQDM_DISABLE"] = "1"
 import akshare as ak
 import time
 import os
