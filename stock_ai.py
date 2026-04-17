@@ -60,7 +60,25 @@ def run_strategy():
 
         # 👉 获取板块个股（可能失败）
         try:
-            stocks = ak.stock_board_concept_cons_em(symbol=name)
+            stocks = None
+
+# 先尝试概念板块
+try:
+    stocks = ak.stock_board_concept_cons_em(symbol=name)
+except:
+    pass
+
+# 如果失败，再尝试行业板块
+if stocks is None or stocks.empty:
+    try:
+        stocks = ak.stock_board_industry_cons_em(symbol=name)
+    except:
+        pass
+
+# 最终判断
+if stocks is None or stocks.empty:
+    print("  ⚠️ 无个股数据")
+    continue
 
             if stocks is None or stocks.empty:
                 print("  ⚠️ 无个股数据")
